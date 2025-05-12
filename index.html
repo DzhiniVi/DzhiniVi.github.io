@@ -11,7 +11,6 @@
       background-color: #1e1e1e;
       color: #fff;
     }
-
     header {
       display: flex;
       justify-content: space-between;
@@ -19,14 +18,12 @@
       background-color: #2c2c2c;
       padding: 15px 30px;
     }
-
     header a.logo {
       font-size: 24px;
       font-weight: bold;
       color: #fff;
       text-decoration: none;
     }
-
     .menu-buttons button {
       margin-left: 15px;
       background-color: #880e4f;
@@ -35,38 +32,32 @@
       padding: 10px 15px;
       cursor: pointer;
     }
-
     .text-block, .text-bottom {
       padding: 30px;
       line-height: 1.6;
     }
-
     .text-block a, .text-bottom a {
       color: #ad1457;
       text-decoration: underline;
     }
-
     .products {
       display: flex;
       justify-content: center;
       gap: 30px;
       padding: 30px;
     }
-
     .product {
       background-color: #333;
       padding: 20px;
       text-align: center;
       border-radius: 8px;
     }
-
     .product img {
       width: 150px;
       height: 150px;
       object-fit: cover;
       border-radius: 4px;
     }
-
     .product button {
       margin-top: 10px;
       background-color: #880e4f;
@@ -75,7 +66,6 @@
       padding: 8px 12px;
       cursor: pointer;
     }
-
     .big-button {
       display: block;
       width: max-content;
@@ -87,7 +77,6 @@
       cursor: pointer;
       font-size: 16px;
     }
-
     .popup {
       display: none;
       position: fixed;
@@ -97,7 +86,6 @@
       justify-content: center;
       align-items: center;
     }
-
     .popup-content {
       background: #2c2c2c;
       color: #fff;
@@ -106,7 +94,6 @@
       text-align: center;
       position: relative;
     }
-
     .popup-content .close {
       position: absolute;
       top: 10px;
@@ -121,8 +108,8 @@
   <header>
     <a href="index.html" class="logo">MyShop</a>
     <div class="menu-buttons" id="menuButtons">
-      <button onclick="login()">Вход</button>
-      <button onclick="register()">Регистрация</button>
+      <button onclick="openLoginPopup()">Вход</button>
+      <button onclick="openRegisterPopup()">Регистрация</button>
     </div>
   </header>
 
@@ -133,15 +120,15 @@
   <div class="products">
     <div class="product">
       <img src="https://via.placeholder.com/150" alt="Product 1">
-      <button onclick="selectProduct()">Выбрать</button>
+      <button onclick="selectProduct(1)">Выбрать</button>
     </div>
     <div class="product">
       <img src="https://via.placeholder.com/150" alt="Product 2">
-      <button onclick="selectProduct()">Выбрать</button>
+      <button onclick="selectProduct(2)">Выбрать</button>
     </div>
     <div class="product">
       <img src="https://via.placeholder.com/150" alt="Product 3">
-      <button onclick="selectProduct()">Выбрать</button>
+      <button onclick="selectProduct(3)">Выбрать</button>
     </div>
   </div>
 
@@ -151,44 +138,95 @@
     Ознакомьтесь с <a href="https://resource.com">полной информацией</a> и <a href="https://another.com">условиями</a>.
   </div>
 
-  <div class="popup" id="popup">
+  <div class="popup" id="authPopup">
     <div class="popup-content">
-      <span class="close" onclick="closePopup()">&times;</span>
+      <span class="close" onclick="closePopup('authPopup')">&times;</span>
       Залогиньтесь или зарегайтесь
     </div>
   </div>
 
-  <script>
-    let isLoggedIn = false; // Переключи на true для имитации входа
+  <div class="popup" id="registerPopup">
+    <div class="popup-content">
+      <span class="close" onclick="closePopup('registerPopup')">&times;</span>
+      <p>Введите ваше имя:</p>
+      <input type="text" id="registerName" oninput="validateRegisterName()">
+      <button id="registerSubmit" onclick="registerUser()" disabled>Зарегистрироваться</button>
+    </div>
+  </div>
 
-    function selectProduct() {
+  <div class="popup" id="registerSuccess">
+    <div class="popup-content">
+      <span class="close" onclick="closePopup('registerSuccess')">&times;</span>
+      Спасибо за регистрацию
+    </div>
+  </div>
+
+  <div class="popup" id="loginPopup">
+    <div class="popup-content">
+      <span class="close" onclick="closePopup('loginPopup')">&times;</span>
+      <p>Введите имя для входа:</p>
+      <input type="text" id="loginName">
+      <button onclick="loginUser()">Войти</button>
+    </div>
+  </div>
+
+  <script>
+    let isLoggedIn = false;
+    let registeredName = '';
+
+    function selectProduct(id) {
       if (!isLoggedIn) {
-        document.getElementById('popup').style.display = 'flex';
+        document.getElementById('authPopup').style.display = 'flex';
       } else {
-        alert('Товар добавлен в корзину!');
+        localStorage.setItem('selectedProduct', id);
+        window.location.href = 'cart.html';
       }
     }
 
-    function closePopup() {
-      document.getElementById('popup').style.display = 'none';
+    function closePopup(id) {
+      document.getElementById(id).style.display = 'none';
     }
 
-    function login() {
+    function openLoginPopup() {
+      document.getElementById('loginPopup').style.display = 'flex';
+    }
+
+    function openRegisterPopup() {
+      document.getElementById('registerPopup').style.display = 'flex';
+    }
+
+    function validateRegisterName() {
+      const name = document.getElementById('registerName').value.trim();
+      const valid = /^[\p{L}\s]{3,}$/u.test(name);
+      document.getElementById('registerSubmit').disabled = !valid;
+    }
+
+    function registerUser() {
+      const name = document.getElementById('registerName').value.trim();
+      registeredName = name;
       isLoggedIn = true;
-      document.getElementById('menuButtons').innerHTML = '<button onclick="openCart()">Корзина</button>';
+      updateMenu();
+      closePopup('registerPopup');
+      document.getElementById('registerSuccess').style.display = 'flex';
     }
 
-    function register() {
-      isLoggedIn = true;
-      document.getElementById('menuButtons').innerHTML = '<button onclick="openCart()">Корзина</button>';
+    function loginUser() {
+      const inputName = document.getElementById('loginName').value.trim();
+      if (inputName === registeredName && inputName !== '') {
+        isLoggedIn = true;
+        updateMenu();
+        closePopup('loginPopup');
+      } else {
+        alert('Пользователь не найден');
+      }
     }
 
-    function openCart() {
-      alert('Открыта корзина');
+    function updateMenu() {
+      document.getElementById('menuButtons').innerHTML = '<button onclick="window.location.href=\'cart.html\'">Корзина</button>';
     }
 
     function goToNextSection() {
-      window.location.href = 'nextpage.html'; // позже заменим
+      window.location.href = 'secondpage.html';
     }
   </script>
 </body>
