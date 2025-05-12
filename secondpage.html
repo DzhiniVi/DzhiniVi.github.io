@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вторая страница</title>
+  <style>
+    body {
+      background-color: #1e1e1e;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 30px;
+    }
+    a {
+      color: #ad1457;
+      text-decoration: underline;
+    }
+    .form-section {
+      margin-top: 30px;
+    }
+    .form-section input {
+      padding: 8px;
+      margin-right: 10px;
+    }
+    .form-section button {
+      padding: 8px 16px;
+      background-color: #880e4f;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    .form-section button:disabled {
+      background-color: #555;
+      cursor: not-allowed;
+    }
+    .status {
+      margin-left: 20px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    Здесь вы можете узнать <a href="https://example.com">больше о нас</a> и <a href="https://partner.com">партнёрах</a>.
+  </div>
+
+  <div class="form-section">
+    <input type="text" id="day" placeholder="День" oninput="onInput()">
+    <input type="text" id="month" placeholder="Месяц" oninput="onInput()">
+    <input type="text" id="year" placeholder="Год" oninput="onInput()">
+    <button id="saveBtn" disabled onclick="onSave()">Сохранить</button>
+    <span class="status" id="statusMsg"></span>
+  </div>
+
+  <script>
+    let savedDate = '';
+
+    function onInput() {
+      const d = day.value.trim();
+      const m = month.value.trim();
+      const y = year.value.trim();
+      const isComplete = d && m && y;
+      const current = `${d}.${m}.${y}`;
+
+      if (savedDate && current !== savedDate) {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Изменить';
+        statusMsg.textContent = 'Ты хочешь поменять дату?';
+      } else if (!savedDate && isComplete) {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Сохранить';
+        statusMsg.textContent = '';
+      } else if (!isComplete) {
+        saveBtn.disabled = true;
+        statusMsg.textContent = '';
+      }
+    }
+
+    function onSave() {
+      savedDate = `${day.value.trim()}.${month.value.trim()}.${year.value.trim()}`;
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Изменить';
+      statusMsg.textContent = 'Дата успешно записана';
+    }
+  </script>
+</body>
+</html>
