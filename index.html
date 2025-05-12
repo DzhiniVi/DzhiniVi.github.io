@@ -66,6 +66,10 @@
       padding: 8px 12px;
       cursor: pointer;
     }
+    .product button[disabled] {
+      background-color: #666;
+      cursor: default;
+    }
     .big-button {
       display: block;
       width: max-content;
@@ -120,15 +124,15 @@
   <div class="products">
     <div class="product">
       <img src="https://via.placeholder.com/150" alt="Product 1">
-      <button onclick="selectProduct(1)">Выбрать</button>
+      <button id="btn-1" onclick="selectProduct(1)">Выбрать</button>
     </div>
     <div class="product">
       <img src="https://via.placeholder.com/150" alt="Product 2">
-      <button onclick="selectProduct(2)">Выбрать</button>
+      <button id="btn-2" onclick="selectProduct(2)">Выбрать</button>
     </div>
     <div class="product">
       <img src="https://via.placeholder.com/150" alt="Product 3">
-      <button onclick="selectProduct(3)">Выбрать</button>
+      <button id="btn-3" onclick="selectProduct(3)">Выбрать</button>
     </div>
   </div>
 
@@ -179,7 +183,9 @@
         document.getElementById('authPopup').style.display = 'flex';
       } else {
         localStorage.setItem('selectedProduct', id);
-        window.location.href = 'cart.html';
+        const btn = document.getElementById(`btn-${id}`);
+        btn.textContent = 'Товар в корзине';
+        btn.disabled = true;
       }
     }
 
@@ -227,6 +233,17 @@
 
     function goToNextSection() {
       window.location.href = 'secondpage.html';
+    }
+
+    window.onload = function () {
+      const selected = localStorage.getItem('selectedProduct');
+      if (selected && isLoggedIn) {
+        const btn = document.getElementById(`btn-${selected}`);
+        if (btn) {
+          btn.textContent = 'Товар в корзине';
+          btn.disabled = true;
+        }
+      }
     }
   </script>
 </body>
