@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Корзина</title>
+  <style>
+    body {
+      background-color: #1e1e1e;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      text-align: center;
+    }
+    .product {
+      margin: 30px auto;
+      background: #2c2c2c;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 300px;
+    }
+    .product img {
+      width: 100%;
+      border-radius: 5px;
+    }
+    .product button {
+      margin: 10px;
+      padding: 10px 20px;
+      background-color: #880e4f;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+    .popup-content {
+      background-color: #2c2c2c;
+      color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      position: relative;
+    }
+    .popup-content .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>Спасибо что выбрали данный товар, надеемся вы его купите</h2>
+
+  <div class="product" id="cartItem">
+    <img src="https://via.placeholder.com/250" alt="Товар">
+    <div>
+      <button onclick="buyItem()">Купить</button>
+      <button onclick="removeItem()">Удалить</button>
+    </div>
+  </div>
+
+  <div class="popup" id="purchasePopup">
+    <div class="popup-content">
+      <span class="close" onclick="closePopup()">&times;</span>
+      Спасибо за покупку!
+    </div>
+  </div>
+
+  <script>
+    function removeItem() {
+      document.getElementById('cartItem').remove();
+    }
+    function buyItem() {
+      document.getElementById('purchasePopup').style.display = 'flex';
+      document.getElementById('cartItem').remove();
+    }
+    function closePopup() {
+      document.getElementById('purchasePopup').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
