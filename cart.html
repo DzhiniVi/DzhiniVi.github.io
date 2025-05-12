@@ -88,7 +88,7 @@
     </div>
   </header>
 
-  <div class="main-content">
+  <div class="main-content" id="mainContent">
     <h2>Спасибо что выбрали данный товар, надеемся вы его купите</h2>
 
     <div class="product" id="cartItem">
@@ -121,8 +121,11 @@
       document.getElementById('purchasePopup').style.display = 'none';
     }
     window.onload = function () {
+      const isLoggedIn = localStorage.getItem('isLoggedIn');
       const selected = localStorage.getItem('selectedProduct');
-      if (!selected) document.getElementById('cartItem').remove();
+      if (!isLoggedIn || !selected) {
+        document.getElementById('mainContent').innerHTML = '<h2>Корзина пуста</h2>';
+      }
     }
   </script>
 </body>
