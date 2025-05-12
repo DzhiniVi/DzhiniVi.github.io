@@ -211,6 +211,7 @@
       const name = document.getElementById('registerName').value.trim();
       registeredName = name;
       isLoggedIn = true;
+      localStorage.setItem('isLoggedIn', 'true');
       updateMenu();
       closePopup('registerPopup');
       document.getElementById('registerSuccess').style.display = 'flex';
@@ -220,6 +221,7 @@
       const inputName = document.getElementById('loginName').value.trim();
       if (inputName === registeredName && inputName !== '') {
         isLoggedIn = true;
+        localStorage.setItem('isLoggedIn', 'true');
         updateMenu();
         closePopup('loginPopup');
       } else {
@@ -237,6 +239,11 @@
 
     window.onload = function () {
       const selected = localStorage.getItem('selectedProduct');
+      const logged = localStorage.getItem('isLoggedIn');
+      if (logged === 'true') {
+        isLoggedIn = true;
+        updateMenu();
+      }
       if (selected && isLoggedIn) {
         const btn = document.getElementById(`btn-${selected}`);
         if (btn) {
