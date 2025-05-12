@@ -6,9 +6,33 @@
   <title>Вторая страница</title>
   <style>
     body {
+      margin: 0;
       background-color: #1e1e1e;
       color: #fff;
       font-family: Arial, sans-serif;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #2c2c2c;
+      padding: 15px 30px;
+    }
+    header a.logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+      text-decoration: none;
+    }
+    .menu-buttons button {
+      margin-left: 15px;
+      background-color: #880e4f;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+    main {
       padding: 30px;
     }
     a {
@@ -40,17 +64,26 @@
   </style>
 </head>
 <body>
-  <div>
-    Здесь вы можете узнать <a href="https://example.com">больше о нас</a> и <a href="https://partner.com">партнёрах</a>.
-  </div>
+  <header>
+    <a href="index.html" class="logo">MyShop</a>
+    <div class="menu-buttons">
+      <button onclick="window.location.href='cart.html'">Корзина</button>
+    </div>
+  </header>
 
-  <div class="form-section">
-    <input type="text" id="day" placeholder="День" oninput="onInput()">
-    <input type="text" id="month" placeholder="Месяц" oninput="onInput()">
-    <input type="text" id="year" placeholder="Год" oninput="onInput()">
-    <button id="saveBtn" disabled onclick="onSave()">Сохранить</button>
-    <span class="status" id="statusMsg"></span>
-  </div>
+  <main>
+    <div>
+      Здесь вы можете узнать <a href="https://example.com">больше о нас</a> и <a href="https://partner.com">партнёрах</a>.
+    </div>
+
+    <div class="form-section">
+      <input type="text" id="day" placeholder="День" oninput="onInput()">
+      <input type="text" id="month" placeholder="Месяц" oninput="onInput()">
+      <input type="text" id="year" placeholder="Год" oninput="onInput()">
+      <button id="saveBtn" disabled onclick="onSave()">Сохранить</button>
+      <span class="status" id="statusMsg"></span>
+    </div>
+  </main>
 
   <script>
     let savedDate = '';
